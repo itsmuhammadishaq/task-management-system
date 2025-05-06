@@ -63,13 +63,20 @@ export const CONFIG: ConfigValue = {
    * Firebase
    */
   firebase: {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? '',
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? '',
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? '',
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ?? '',
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID ?? '',
-    appId: import.meta.env.VITE_FIREBASE_APPID ?? '',
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID ?? '',
+    // apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? '',
+    // authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? '',
+    // projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? '',
+    // storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ?? '',
+    // messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID ?? '',
+    // appId: import.meta.env.VITE_FIREBASE_APPID ?? '',
+    // measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID ?? '',
+    apiKey: 'AIzaSyBk2R-2enB_Uwkne-vV_dub4vAPf44nipE',
+    authDomain: 'task-management-system-demo.firebaseapp.com',
+    projectId: 'task-management-system-demo',
+    storageBucket: 'task-management-system-demo.firebasestorage.app',
+    messagingSenderId: '254877073558',
+    appId: '1:254877073558:web:58cb9361cb024a4313c2b7',
+    measurementId: 'G-2YSQC2NP9J',
   },
   /**
    * Amplify
