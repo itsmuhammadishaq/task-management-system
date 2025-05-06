@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { queryKeys } from 'src/utils/querykeys';
+import { queryKeys } from 'src/utils/queryKeys';
 
 import { DB } from 'src/auth/context/FirebaseContext';
 

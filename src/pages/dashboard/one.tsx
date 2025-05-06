@@ -21,9 +21,6 @@ export default function Page() {
 
   const { data } = useData();
 
-  // @ts-ignore
-  console.log(data?.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)));
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

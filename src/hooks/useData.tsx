@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { queryKeys } from 'src/utils/querykeys';
+import { queryKeys } from 'src/utils/queryKeys';
 
 import FirebaseService from 'src/components/services/firebaseService';
 
