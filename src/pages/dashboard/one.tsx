@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { Box, Button, Container, Typography, CircularProgress } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 
 import useData from 'src/hooks/useData';
 
@@ -19,11 +19,13 @@ const metadata = { title: `Page one | Dashboard - ${CONFIG.site.name}` };
 export default function Page() {
   const [open, setOpen] = useState(false);
 
+  const { data } = useData();
+
+  // @ts-ignore
+  console.log(data?.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate)));
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const { data, isLoading } = useData();
-  console.log(data);
 
   return (
     <>
@@ -41,11 +43,11 @@ export default function Page() {
       </Box>
       <Container>
         <Box sx={{ display: 'flex', gap: '23px' }}>
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            data?.map((item: any, key) => <TaskCard key={key} item={item} />)
-          )}
+          {data
+            // @ts-ignore
+            ?.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
+
+            .map((item, key) => <TaskCard key={key} item={item} />)}
         </Box>
       </Container>
     </>

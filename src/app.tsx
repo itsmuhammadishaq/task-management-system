@@ -26,6 +26,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App() {
   const queryClient = new QueryClient();
+
   useScrollToTop();
 
   return (

@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
-import JsonService from 'src/services/jsonService';
+import { queryKeys } from 'src/utils/querykeys';
 
-import { queryKeys } from '../utils/queryKeys';
+import FirebaseService from 'src/components/services/firebaseService';
 
 const useData = () =>
   useQuery<any[]>({
     queryKey: [queryKeys.tasks],
-    queryFn: () => new JsonService().getTasks(),
+    queryFn: () => new FirebaseService().getData(),
   });
 
 export default useData;

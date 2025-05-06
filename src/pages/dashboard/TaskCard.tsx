@@ -8,6 +8,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 
 import { Iconify } from 'src/components/iconify';
+
 import Delete from './modal';
 import ClickButton from './clickButton';
 
@@ -20,6 +21,15 @@ export function TaskCard({ item }: any) {
   const [openEdit, setOpenEdit] = useState(false);
   const handleOpenEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => setOpenEdit(false);
+  const d = new Date(item.dueDate);
+
+  const curr_date = d.getDate();
+
+  const curr_month = d.getMonth();
+
+  const curr_year = d.getFullYear();
+
+  const dueDate = `${curr_date}/${curr_month}/${curr_year}`;
 
   return (
     <Card sx={{ p: 1, width: '250px' }}>
@@ -57,7 +67,7 @@ export function TaskCard({ item }: any) {
               }}
             >
               <Iconify icon="uiw:date" sx={{ width: 18, pb: 1 }} />
-              {new Date(item.dueDate).toLocaleDateString()}
+              {dueDate}
             </Typography>
           </Box>
         </Box>

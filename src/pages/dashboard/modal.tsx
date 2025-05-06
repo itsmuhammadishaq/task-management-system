@@ -1,9 +1,14 @@
+import { doc, deleteDoc } from 'firebase/firestore';
+import { useQueryClient } from '@tanstack/react-query';
+
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useQueryClient } from '@tanstack/react-query';
-import { queryKeys } from 'src/utils/queryKeys';
+
+import { queryKeys } from 'src/utils/querykeys';
+
+import { DB } from 'src/auth/context/FirebaseContext';
 
 const style = {
   position: 'absolute',
@@ -28,8 +33,9 @@ export default function Delete({ open, onclose, data }: PropDelete) {
   const queryClient = useQueryClient();
   async function deleteUser(id: string) {
     try {
-      const url = `http://localhost:3000/tasks/${id}`;
-      await fetch(url, { method: 'delete' });
+      // const url = `http://localhost:3000/tasks/${id}`;
+      // await fetch(url, { method: 'delete' });
+      await deleteDoc(doc(DB, `tasks/${data.id}`));
       queryClient.invalidateQueries({ queryKey: [queryKeys.tasks] });
       onclose();
     } catch (error) {

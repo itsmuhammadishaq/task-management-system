@@ -3,6 +3,8 @@ import * as React from 'react';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQueryClient } from '@tanstack/react-query';
+import { doc, addDoc, updateDoc, collection } from 'firebase/firestore';
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -10,11 +12,13 @@ import { MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Button from '@mui/material/Button';
 
+import { queryKeys } from 'src/utils/querykeys';
+
 import { Form, RHFTextField } from 'src/components/hook-form';
 import { RHFSelect } from 'src/components/hook-form/rhf-select';
 import { RHFDatePicker } from 'src/components/hook-form/rhf-date-picker';
-import { useQueryClient } from '@tanstack/react-query';
-import { queryKeys } from 'src/utils/queryKeys';
+
+import { DB } from 'src/auth/context/FirebaseContext';
 
 const style = {
   position: 'absolute',
@@ -36,6 +40,7 @@ type propsAdd = {
 export default function ClickButton({ open, data, handleClose }: propsAdd) {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
+
   const schema = yup.object().shape({
     name: yup.string().required('name is required'),
     status: yup.string().required('status is required'),
@@ -69,21 +74,35 @@ export default function ClickButton({ open, data, handleClose }: propsAdd) {
 
   async function submitform(values: any) {
     try {
-      if (data) {
-        const url = `http://localhost:3000/tasks/${data.id}`;
-        const response = await fetch(url, { method: 'PUT', body: JSON.stringify(values) });
-        await response.json();
-        queryClient.invalidateQueries({ queryKey: [queryKeys.tasks] });
+      if (!data?.id) {
+        // const url = `http://localhost:3000/tasks/${data.id}`;
+        // const response = await fetch(url, { method: 'PUT', body: JSON.stringify(values) });
+        // await response.json();
+        const { dueDate, ...rest } = values;
+
+        const docRef = await addDoc(collection(DB, 'tasks'), {
+          ...rest,
+          dueDate: new Date(dueDate).toLocaleDateString(),
+        });
+        console.log(docRef.id);
+
         enqueueSnackbar({ message: 'Task Added Successfully', variant: 'success' });
+        queryClient.invalidateQueries({ queryKey: [queryKeys.tasks] });
       } else {
-        const url = 'http://localhost:3000/tasks';
-        const response = await fetch(url, { method: 'POST', body: JSON.stringify(values) });
-        await response.json();
-        queryClient.invalidateQueries({ queryKey: [queryKeys.tasks] });
+        // const url = 'http://localhost:3000/tasks';
+        // const response = await fetch(url, { method: 'POST', body: JSON.stringify(values) });
+        // await response.json();
+        const washingtonRef = doc(DB, `tasks/${data.id}`);
+        console.log(data.id);
+        await updateDoc(washingtonRef, {
+          ...values,
+        });
+
         enqueueSnackbar({ message: 'Task Added Successfully', variant: 'success' });
+        queryClient.invalidateQueries({ queryKey: [queryKeys.tasks] });
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       enqueueSnackbar({ message: 'Operation Failed', variant: 'error' });
     } finally {
       reset();
@@ -105,7 +124,7 @@ export default function ClickButton({ open, data, handleClose }: propsAdd) {
             <MenuItem value="Completed">Complete</MenuItem>
           </RHFSelect>
 
-          <RHFDatePicker name="dueDate" label="Due Date" sx={{ my: 1 }} />
+          <RHFDatePicker name="dueDate" label="Due Date" sx={{ my: 1 }} disablePast />
 
           <Box sx={{ display: 'flex', gap: 1, justifyContent: 'end' }}>
             <Button onClick={handleClose} variant="outlined">
